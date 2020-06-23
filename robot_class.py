@@ -77,7 +77,7 @@ class robot:
             One item in the returned list should be in the form: [landmark_index, dx, dy].
             '''
            
-        measurements = []
+        measurements = None
         
         ## TODO: iterate through all of the landmarks in a world
         
@@ -91,6 +91,34 @@ class robot:
         ##    as list.append([index, dx, dy]), this format is important for data creation done later
         
         ## TODO: return the final, complete list of measurements
+        
+        measurements = []
+        
+        ## TODO: iterate through all of the landmarks in a world
+        
+        ## TODO: For each landmark
+        ## 1. compute dx and dy, the distances between the robot and the landmark
+        ## 2. account for measurement noise by *adding* a noise component to dx and dy
+        ##    - The noise component should be a random value between [-1.0, 1.0)*measurement_noise
+        ##    - Feel free to use the function self.rand() to help calculate this noise component
+        ##    - It may help to reference the `move` function for noise calculation
+        ## 3. If either of the distances, dx or dy, fall outside of the internal var, measurement_range
+        ##    then we cannot record them; if they do fall in the range, then add them to the measurements list
+        ##    as list.append([index, dx, dy]), this format is important for data creation done later
+        
+        ## TODO: return the final, complete list of measurements
+        
+        for index, lmark in enumerate(self.landmarks):
+            
+            # calculate dx, dx between the robot and landmark including noise component
+            dx = abs(self.x - lmark.x) + self.rand() * self.motion_nose
+            dy = abs(self.y - lmark.y) + self.rand() * self.motion_nose
+            
+            # exclude landmarks that are out of range of robot sensors
+            if dx > self.measurement_range or dy > self.measurement_range:
+                continue
+                
+            measurements.append(index, dx, dy)
         return measurements
 
 
